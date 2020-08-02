@@ -1,0 +1,44 @@
+<h5>We have {{ getTotalInStockProductCount() }} laptop products in stock</h5>
+
+<div class="col s12 m4" *ngFor="let item of laptopProductList">
+  <div class="card">
+    <div class="card-image">
+      <img src="../../../assets/img/3.jpeg" />
+      <span class="card-title">{{ item.name }}</span>
+      <a class="btn-floating halfway-fab waves-effect waves-light red"
+        ><i class="material-icons">add</i></a
+      >
+    </div>
+    <div class="card-content">
+      <p>ID : {{ item.id }}</p>
+      <p>Price : {{ item.price | currency: "INR" }}</p>
+      <hr />
+      <p [ngStyle]="{ 'font-weight': 'bold' }">
+        Color :
+        <span [style.color]="item.color">{{ item.color | titlecase }}</span>
+      </p>
+      <p>Country : {{ item.country | titlecase }}</p>
+
+      <hr />
+      <ng-container
+        *ngIf="item.inStock; then inStockBlock; else outOfStock"
+      ></ng-container>
+      <ng-template #inStockBlock>In Stock</ng-template>
+      <ng-template #outOfStock>Out Of Stock</ng-template>
+      <hr />
+      <span [ngSwitch]="item.country">
+        <p *ngSwitchCase="'us'">
+          America
+        </p>
+        <p *ngSwitchCase="'india'">
+          My India
+        </p>
+        <p *ngSwitchDefault>
+          Other Country
+        </p>
+      </span>
+
+      <a [routerLink]="['/laptop', item.id]">Read More</a>
+    </div>
+  </div>
+</div>
